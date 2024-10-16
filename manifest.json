@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Screenshot Extension",
+  "description": "Captures a screenshot of the visible tab when the extension icon is clicked and sends it to a server.",
+  "version": "1.0",
+  "action": {
+    "default_popup": "",
+    "default_title": "Capture Screenshot",
+    "icons": {
+      "16": "images/icon-16.png",
+      "32": "images/icon-32.png",
+      "48": "images/icon-48.png",
+      "128": "images/icon-128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "activeTab",  
+    "tabs"        
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://learning.mheducation.com/static/awd/index.html*"],
+      "js": ["scripts
