@@ -13,14 +13,20 @@
       "128": "images/icon-128.png"
     }
   },
-  "background": {
-    "service_worker": "background.js"
-  },
   "permissions": [
     "activeTab",  
     "tabs"        
   ],
   "content_scripts": [
     {
-      "matches": ["https://learning.mheducation.com/static/awd/index.html*"],
-      "js": ["scripts
+      "matches": ["https://learning.mheducation.com/*"],
+      "js": ["scripts/content.js"]
+    }
+  ],
+  "icons": {
+    "16": "images/16.png",
+    "32": "images/32.png",
+    "48": "images/48.png",
+    "128": "images/128.png"
+  }
+}

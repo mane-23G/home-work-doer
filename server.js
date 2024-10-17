@@ -28,55 +28,27 @@ function base64ToImage(base64String, filePath) {
 
 // Route to handle screenshot/text POST requests from your Chrome extension
 app.post('/process-data', async (req, res) => {
-    const data = req.body.data; // Base64 image string
+    const data = req.body.data; 
     console.log('Received request at /process-data');
-
-    // Save the base64 image to a temporary file
-    const filePath = './temp_image.png';
-    base64ToImage(data, filePath);
-
-    // Create a Tesseract worker to process the image
-    const worker = await createWorker();
-    try {
-        // Perform OCR on the saved image
-        const ret = await worker.recognize(filePath);
-        console.log('Extracted text:', ret.data.text);
-        
-        await worker.terminate();
-
-        // Clean the extracted text
-        var lines = ret.data.text.split('\n');
-        lines.splice(0,2);  // Remove the first two lines
-        lines.pop();  // Remove last unwanted lines
-        lines.pop();
-        lines.pop();
-        lines.pop();
-        lines.pop();
-        var newtext = lines.join('\n');
-        console.log("Processed text: ", newtext);
-
+    console.log("data that is revieved by the caller: " , data);
         // Send the cleaned-up text to the OpenAI API
         const completion = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
+            model: "gpt-4o",
             messages: [
-                { "role": "user", "content": newtext }  // Use the processed text here
+                { "role": "user", "content": data }  // Use the processed text here
             ],
+            temperature: 1.0,  // Lower value for more accurate results
+            top_p: 1.0  // Ensure top_p matches
         });
 
-        console.log("ChatGPT completition:", completion);
-        const chatgptAnswer = completion .choices[0].message.content;
+        // console.log("ChatGPT completition:", completion);
+        const chatgptAnswer = completion.choices[0].message.content;
         console.log("ChatGPT answer:", chatgptAnswer);
 
         res.json({ message: "Data received and processed!", processedData: chatgptAnswer });
-    } catch (error) {
-        console.error('Error processing image:', error);
-        res.status(500).json({ error: 'Error processing image' });
-    } finally {
-        // Delete the temporary image file after processing
-        fs.unlinkSync(filePath);
-    }
 });
 
 // Start the server
 app.listen(PORT, () => {
-    cons
+    console.log(`Server running on http://localhost:${PORT}`);
+});

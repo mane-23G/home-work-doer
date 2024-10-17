@@ -34,4 +34,8 @@
 //     //     if (chrome.runtime.lastError) {
 //     //         console.error('Error capturing tab:', chrome.runtime.lastError.message);
 //     //     } else {
-//     //         console.log("Captured screenshot:", imageData);  // Lo
+//     //         console.log("Captured screenshot:", imageData);  // Log screenshot data
+//     //         sendDataToServer(imageData);  // Send the screenshot to your server
+//     //     }
+//     // });
+// });
