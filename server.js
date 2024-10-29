@@ -4,8 +4,10 @@ const bodyParser = require('body-parser');
 const { createWorker } = require('tesseract.js');
 const OpenAI = require('openai');
 const fs = require('fs');
+require('dotenv').config();
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+console.log('OpenAI API Key:', process.env.OPENAI_API_KEY);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
